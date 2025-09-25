@@ -1,0 +1,17 @@
+name: Build Docs (Self)
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/build_docs.yml'
+      - '.github/workflows/build_PR.yml'
+            
+
+jobs:
+  build-docs:
+    uses: ./.github/workflows/build_docs.yml@v1
+    with:
+      main-repo: napari/napari
+      main-ref: main
+      docs-repo: napari/docs
+      docs-ref: main
