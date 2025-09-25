@@ -44,6 +44,10 @@ jobs:
           repository: ${{ inputs.main-repo }}
           ref: ${{ inputs.main-ref }}
           path: napari
+      - name: Install the latest version of uv
+        uses: astral-sh/setup-uv@v6
+        with:
+          version: "latest"
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
@@ -65,10 +69,10 @@ jobs:
           wm: herbstluftwm
       - name: Install dependencies
         run: |
-          python -m pip install --upgrade pip
-          python -m pip install "napari/[pyqt5,docs]"
+          uv pip install --upgrade pip
+          uv pip install "napari/[pyqt5]" --group napari/pyproject.toml:docs
         env:
-          PIP_CONSTRAINT: ${{ github.workspace }}/napari/resources/constraints/constraints_py3.12_docs.txt
+          UV_CONSTRAINT: ${{ github.workspace }}/napari/resources/constraints/constraints_py3.12_docs.txt
       - name: Test import
         run: |
           python -c 'import napari; print(napari.__version__)'
@@ -79,6 +83,7 @@ jobs:
           GOOGLE_CALENDAR_ID: ${{ secrets.GOOGLE_CALENDAR_ID }}
           GOOGLE_CALENDAR_API_KEY: ${{ secrets.GOOGLE_CALENDAR_API_KEY }}
           PIP_CONSTRAINT: ${{ github.workspace }}/napari/resources/constraints/constraints_py3.12_docs.txt
+          UV_CONSTRAINT: ${{ github.workspace }}/napari/resources/constraints/constraints_py3.12_docs.txt
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
