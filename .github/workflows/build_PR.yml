@@ -9,7 +9,7 @@ on:
 
 jobs:
   build-docs:
-    uses: ./.github/workflows/build_docs.yml@v1
+    uses: ./.github/workflows/build_docs.yml
     with:
       main-repo: napari/napari
       main-ref: main
