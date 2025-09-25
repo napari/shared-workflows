@@ -48,12 +48,8 @@ jobs:
         uses: astral-sh/setup-uv@v6
         with:
           version: "latest"
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
           python-version: '3.12'
-          cache-dependency-path: |
-            napari/pyproject.toml
+          activate-environment: true
       - name: Cache pooch downloads
         uses: actions/cache@v4
         with:
