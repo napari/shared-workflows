@@ -1,0 +1,36 @@
+name: Clean up PR description
+
+on:
+  # see https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#pull_request_target
+  pull_request_target:
+    types:
+      - opened
+      - synchronize
+      - reopened
+      - edited
+  workflow_call:
+# see https://docs.github.com/en/actions/using-jobs/assigning-permissions-to-jobs
+permissions:
+  pull-requests: write
+
+jobs:
+  check_labels:
+    name: Remove html comments
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          repository: napari/napari
+      # install python and requests
+      - name: Install the latest version of uv
+        uses: astral-sh/setup-uv@v6
+        with:
+          version: "latest"
+      - name: Remove html comments
+        env:
+          GH_PR_NUMBER: ${{ github.event.number }}
+          GH_REPO_URL: ${{ github.event.repository.url}}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+        run: |
+          uv run --script scripts/remove_html_comments_from_pr.py
