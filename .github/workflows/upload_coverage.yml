@@ -70,7 +70,7 @@ jobs:
           python -Im coverage combine --rcfile=ci_coveragerc covreports
           python -Im coverage xml -o coverage.xml
           python -Im coverage report
-          python -Im coverage report --format=markdown >> $GITHUB_STEP_SUMMARY
+          python -Im coverage report --format=markdown --skip-empty --skip-covered >> $GITHUB_STEP_SUMMARY
 
       - name: Upload to codecov
         uses: codecov/codecov-action@v5
