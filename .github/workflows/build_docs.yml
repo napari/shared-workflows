@@ -44,6 +44,7 @@ jobs:
           repository: ${{ inputs.main-repo }}
           ref: ${{ inputs.main-ref }}
           path: napari
+          fetch-depth: 0
       - name: Install the latest version of uv
         uses: astral-sh/setup-uv@v6
         with:
