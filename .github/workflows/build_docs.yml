@@ -52,7 +52,7 @@ jobs:
           python-version: '3.12'
           activate-environment: true
       - name: Cache pooch downloads
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: |
             ${{ github.workspace }}/.cache/scikit-image
