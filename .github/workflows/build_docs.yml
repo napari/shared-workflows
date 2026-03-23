@@ -82,6 +82,7 @@ jobs:
           PIP_CONSTRAINT: ${{ github.workspace }}/napari/resources/constraints/constraints_py3.12_docs.txt
           UV_CONSTRAINT: ${{ github.workspace }}/napari/resources/constraints/constraints_py3.12_docs.txt
       - name: Upload artifact
+        if: ${{ always() }}
         uses: actions/upload-artifact@v6
         with:
           name: html
