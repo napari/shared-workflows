@@ -60,7 +60,7 @@ jobs:
             ${{ github.workspace }}/.cache/pooch
           key: pooch
       - name: Setup headless display
-        uses: pyvista/setup-headless-display-action@v4.2
+        uses: pyvista/setup-headless-display-action@v4.3
         with:
           qt: true
           wm: herbstluftwm
@@ -83,7 +83,7 @@ jobs:
           UV_CONSTRAINT: ${{ github.workspace }}/napari/resources/constraints/constraints_py3.12_docs.txt
       - name: Upload artifact
         if: ${{ always() }}
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: html
           path: docs/docs/_build/html
