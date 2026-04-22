@@ -1,0 +1,23 @@
+---
+name: 'Update PR Triage Board'
+
+on:
+  schedule:
+    - cron: '0 * * * *'  # Run every hour
+  workflow_dispatch:
+
+permissions: {}
+
+jobs:
+  pr-triage:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Update PR Triage Board
+        uses: jupyter/pr-triage-board-bot@dae1209c73e70224b2f2955590d0698832a5a076  # main @ Oct 26, 2025
+        with:
+          organization: 'napari'
+          project-number: '35'
+          gh-app-id: '3461445'
+          gh-app-installation-id: '126023418'
+          gh-app-private-key: ${{ secrets.GH_APP_PRIVATE_KEY }}
+          # repositories: 'napari'  # queries entire org unless comma-separated repos are added here
