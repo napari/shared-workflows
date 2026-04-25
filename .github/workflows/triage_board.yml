@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Update PR Triage Board
-        uses: jupyter/pr-triage-board-bot@dae1209c73e70224b2f2955590d0698832a5a076  # main @ Oct 26, 2025
+        uses: jupyter/pr-triage-board-bot@e2765b29ea22f204088785ff982b99580d8f0193  # main @ Apr 24, 2026
         with:
           organization: 'napari'
           project-number: '35'
