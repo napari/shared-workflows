@@ -2,6 +2,12 @@ name: Remove "ready to merge" label
 
 on:
   workflow_call:
+    inputs:
+      label_name:
+        description: 'The name of the label to remove from closed items'
+        required: false
+        default: 'ready to merge'
+
 permissions:
   pull-requests: write
 
@@ -10,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Remove label
-        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7.0.1
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v7.0.1
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
@@ -20,7 +26,7 @@ jobs:
               per_page: 100,
               sort: 'updated',
               direction: 'desc',
-              labels: 'ready to merge',
+              labels: ${{ inputs.label_name || 'ready to merge' }},
             });
             if (issues.length > 0) {
               console.log('Found the following closed items with the "ready to merge" label:');
