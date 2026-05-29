@@ -23,6 +23,10 @@ on:
         description: "Enter make target: html html-noplot docs slimfast slimgallery"
         type: string
         default: "slimfast"
+      python_version:
+        description: "Python version used for build docs"
+        type: string
+        default: "3.12"
   workflow_dispatch:
 
 jobs:
@@ -49,7 +53,7 @@ jobs:
         uses: astral-sh/setup-uv@v7
         with:
           version: "latest"
-          python-version: '3.12'
+          python-version: ${{ inputs.python_version }}
           activate-environment: true
       - name: Cache pooch downloads
         uses: actions/cache@v5
@@ -69,7 +73,7 @@ jobs:
           uv pip install --upgrade pip
           uv pip install "napari/[pyqt5]" --group napari/pyproject.toml:docs
         env:
-          UV_CONSTRAINT: ${{ github.workspace }}/napari/resources/constraints/constraints_py3.12_docs.txt
+          UV_CONSTRAINT: ${{ github.workspace }}/napari/resources/constraints/constraints_py${{ inputs.python_version }}_docs.txt
       - name: Test import
         run: |
           python -c 'import napari; print(napari.__version__)'
@@ -79,8 +83,8 @@ jobs:
         env:
           GOOGLE_CALENDAR_ID: ${{ secrets.GOOGLE_CALENDAR_ID }}
           GOOGLE_CALENDAR_API_KEY: ${{ secrets.GOOGLE_CALENDAR_API_KEY }}
-          PIP_CONSTRAINT: ${{ github.workspace }}/napari/resources/constraints/constraints_py3.12_docs.txt
-          UV_CONSTRAINT: ${{ github.workspace }}/napari/resources/constraints/constraints_py3.12_docs.txt
+          PIP_CONSTRAINT: ${{ github.workspace }}/napari/resources/constraints/constraints_py${{ inputs.python_version }}_docs.txt
+          UV_CONSTRAINT: ${{ github.workspace }}/napari/resources/constraints/constraints_py${{ inputs.python_version }}_docs.txt
       - name: Upload artifact
         if: ${{ always() }}
         uses: actions/upload-artifact@v7
