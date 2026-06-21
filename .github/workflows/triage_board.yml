@@ -5,6 +5,11 @@ on:
   schedule:
     - cron: '0 */4 * * *'  # Run every 4 hours
   workflow_dispatch:
+    inputs:
+      repositories:
+        description: Optional comma-separated repository list for scoped manual runs
+        required: false
+        type: string
 
 permissions: {}
 
@@ -20,4 +25,4 @@ jobs:
           gh-app-id: '3461445'
           gh-app-installation-id: '126023418'
           gh-app-private-key: ${{ secrets.GH_APP_PRIVATE_KEY }}
-          # repositories: 'napari'  # queries entire org unless comma-separated repos are added here
+          repositories: ${{ github.event.inputs.repositories }}
