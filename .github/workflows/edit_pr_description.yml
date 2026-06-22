@@ -8,6 +8,8 @@ on:
       - synchronize
       - reopened
       - edited
+    branches:
+      - main
   workflow_call:
 # see https://docs.github.com/en/actions/using-jobs/assigning-permissions-to-jobs
 permissions:
@@ -22,6 +24,7 @@ jobs:
         with:
           repository: napari/shared-workflows
           ref: main
+          persist-credentials: 'false'
       # install python and requests
       - name: Install the latest version of uv
         uses: astral-sh/setup-uv@08807647e7069bb48b6ef5acd8ec9567f424441b # v8.1.0
