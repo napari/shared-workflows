@@ -37,7 +37,6 @@ jobs:
   build-and-upload:
     name: Build & Upload Artifact
     uses: ./.github/workflows/build_docs.yml
-    secrets: inherit
     with:
       main-repo: "napari/napari"
       main-ref: ${{ github.event.inputs.napari_ref }}
