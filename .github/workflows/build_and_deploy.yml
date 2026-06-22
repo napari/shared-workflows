@@ -13,7 +13,6 @@ on:
       target_directory:
         description: 'The directory to deploy the docs to'
         required: true
-        default: 'dev'
         type: string
       napari_ref:
         description: 'The napari/napari ref to build the docs against'
@@ -31,7 +30,7 @@ concurrency:
 jobs:
   build-and-upload:
     name: Build & Upload Artifact
-    uses: .github/workflows/build_docs.yml
+    uses: ./.github/workflows/build_docs.yml
     secrets: inherit
     with:
       main-repo: "napari/napari"
