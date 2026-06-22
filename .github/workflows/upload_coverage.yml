@@ -56,12 +56,12 @@ jobs:
           # if src exists, add it to the pathmap
           if [ -d "src" ]; then
             echo "    src/" >> ci_coveragerc
-            echo "    D:\\a\\$REPO_NAME\\$REPO_NAME\\src" >> ci_coveragerc
+            printf '%s\n' "    D:\\a\\$REPO_NAME\\$REPO_NAME\\src" >> ci_coveragerc
             echo "    /home/runner/work/$REPO_NAME/$REPO_NAME/src" >> ci_coveragerc
             echo "    /Users/runner/work/$REPO_NAME/$REPO_NAME/src" >> ci_coveragerc
           else
             echo "    ${GITHUB_WORKSPACE}" >> ci_coveragerc
-            echo "    D:\\a\\$REPO_NAME\\$REPO_NAME" >> ci_coveragerc
+            printf '%s\n' "    D:\\a\\$REPO_NAME\\$REPO_NAME" >> ci_coveragerc
             echo "    /home/runner/work/$REPO_NAME/$REPO_NAME" >> ci_coveragerc
             echo "    /Users/runner/work/$REPO_NAME/$REPO_NAME" >> ci_coveragerc
           fi
