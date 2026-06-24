@@ -13,7 +13,6 @@ on:
       target_directory:
         description: 'The directory to deploy the docs to'
         required: true
-        default: 'dev'
         type: string
       napari_ref:
         description: 'The napari/napari ref to build the docs against'

@@ -58,12 +58,12 @@ jobs:
           # if src exists, add it to the pathmap
           if [ -d "src" ]; then
             echo "    src/" >> ci_coveragerc
-            echo "    D:\\a\\$REPO_NAME\\$REPO_NAME\\src" >> ci_coveragerc
+            printf '%s\n' "    D:\\a\\$REPO_NAME\\$REPO_NAME\\src" >> ci_coveragerc
             echo "    /home/runner/work/$REPO_NAME/$REPO_NAME/src" >> ci_coveragerc
             echo "    /Users/runner/work/$REPO_NAME/$REPO_NAME/src" >> ci_coveragerc
           else
             echo "    ${GITHUB_WORKSPACE}" >> ci_coveragerc
-            echo "    D:\\a\\$REPO_NAME\\$REPO_NAME" >> ci_coveragerc
+            printf '%s\n' "    D:\\a\\$REPO_NAME\\$REPO_NAME" >> ci_coveragerc
             echo "    /home/runner/work/$REPO_NAME/$REPO_NAME" >> ci_coveragerc
             echo "    /Users/runner/work/$REPO_NAME/$REPO_NAME" >> ci_coveragerc
           fi
@@ -72,7 +72,7 @@ jobs:
           python -Im coverage combine --rcfile=ci_coveragerc covreports
           python -Im coverage xml -o coverage.xml
           python -Im coverage report
-          python -Im coverage report --format=markdown --skip-empty --skip-covered >> $GITHUB_STEP_SUMMARY
+          python -Im coverage report --format=markdown --skip-empty --skip-covered >> "$GITHUB_STEP_SUMMARY"
 
       - name: Upload to codecov
         uses: codecov/codecov-action@fb8b3582c8e4def4969c97caa2f19720cb33a72f # v7.0.0
