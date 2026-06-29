@@ -25,6 +25,10 @@ on:
     secrets:
       ACTIONS_DEPLOY_KEY:
         required: true
+      GOOGLE_CALENDAR_ID:
+        required: false
+      GOOGLE_CALENDAR_API_KEY:
+        required: false
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -42,6 +46,9 @@ jobs:
       docs-repo: ${{ github.repository }}
       docs-ref: ${{ github.event.inputs.docs_ref }}
       make_target: "html"
+    secrets:
+      GOOGLE_CALENDAR_ID: ${{ secrets.GOOGLE_CALENDAR_ID }}
+      GOOGLE_CALENDAR_API_KEY: ${{ secrets.GOOGLE_CALENDAR_API_KEY }}
 
   deploy:
     name: Download & Deploy Artifact
