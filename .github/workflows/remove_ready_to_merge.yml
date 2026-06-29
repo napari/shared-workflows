@@ -29,7 +29,7 @@ jobs:
               per_page: 100,
               sort: 'updated',
               direction: 'desc',
-              labels: ${LABEL_NAME},
+              labels: "${LABEL_NAME}",
             });
             if (issues.length > 0) {
               console.log('Found the following closed items with the "ready to merge" label:');
