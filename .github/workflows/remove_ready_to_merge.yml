@@ -17,7 +17,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Remove label
-        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v7.0.1
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
+        env:
+          LABEL_NAME: ${{ inputs.label_name || 'ready to merge' }}
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
@@ -27,7 +29,7 @@ jobs:
               per_page: 100,
               sort: 'updated',
               direction: 'desc',
-              labels: ${{ inputs.label_name || 'ready to merge' }},
+              labels: ${LABEL_NAME},
             });
             if (issues.length > 0) {
               console.log('Found the following closed items with the "ready to merge" label:');
