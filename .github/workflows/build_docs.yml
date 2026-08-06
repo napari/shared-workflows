@@ -81,7 +81,7 @@ jobs:
       - name: Install dependencies
         run: |
           uv pip install --upgrade pip
-          uv pip install "napari/[pyqt5]" --group napari/pyproject.toml:docs
+          uv pip install "napari/[pyqt6]" --group napari/pyproject.toml:docs
         env:
           UV_CONSTRAINT: ${{ github.workspace }}/napari/resources/constraints/constraints_py${{ inputs.python_version }}_docs.txt
       - name: Test import
