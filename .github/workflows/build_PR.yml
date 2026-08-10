@@ -16,3 +16,4 @@ jobs:
       main-ref: main
       docs-repo: napari/docs
       docs-ref: main
+      make_target: 'html'
