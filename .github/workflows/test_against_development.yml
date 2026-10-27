@@ -1,0 +1,87 @@
+#
+name: "Test napari dependencies against development version of project"
+on:
+    workflow_call:
+      inputs:
+        python_version:
+          required: true
+          type: string
+        platform:
+          required: false
+          type: string
+          default: "ubuntu-latest"
+        toxenv:
+          required: false
+          type: string
+          default: ""
+        qt_backend:
+          required: false
+          type: string
+          default: "pyqt6"
+        project:
+          required: false
+          type: string
+          default: ""
+        posargs:
+          required: false
+          type: string
+          default: ""
+
+jobs:
+  test_against_napari:
+    name: Test napari against main of ${{ inputs.project }} using Python ${{ inputs.python_version }}
+    runs-on: ${{ inputs.platform }}
+    steps:
+      - name: Checkout project
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          path: project
+          repository: ${{ inputs.project }}
+          persist-credentials: 'false'
+          fetch-depth: 0
+      - name: Checkout napari
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          path: napari
+          repository: napari/napari
+          persist-credentials: 'false'
+          ref: refs/pull/9555/head
+          fetch-depth: 0
+
+      - name: Disable ptrace security restrictions
+        if: runner.os == 'Linux'
+        run: |
+          echo 0 | sudo tee /proc/sys/kernel/yama/ptrace_scope
+
+      - name: Set Windows resolution
+        if: runner.os == 'Windows'
+        run: Set-DisplayResolution -Width 1920 -Height 1080 -Force
+        shell: powershell
+
+      - name: Setup headless display
+        uses: pyvista/setup-headless-display-action@5bc8de3bc71fcda7a96439571287a554901541a0 # v4.3
+        with:
+          qt: true
+          wm: herbstluftwm
+
+      - name: Set up Python ${{ inputs.python_version }}
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6.3.0
+        with:
+          python-version: ${{ inputs.python_version }}
+          cache: "pip"
+          cache-dependency-path: |
+            napari/pyproject.toml
+            project/pyproject.toml
+
+      - name: Install tox
+        run: pip install tox tox-gh-actions tox-min-req tox-uv
+      - name: run tox
+        run: |
+          cd napari
+          tox
+        env:
+          NAPARI_TEST_CONSTRAINTS:  ${{ github.workspace }}/napari/resources/constraints/constraints_py${{ inputs.python_version }}.txt
+          NAPARI_TEST_EXTRA_SETUP_COMMANDS: uv pip install ${{ github.workspace }}/project
+          NAPARI_TOX_POSARGS: ${{ inputs.posargs }}
+          TOXENV: ${{ inputs.toxenv }}
+          BACKEND: ${{ inputs.qt_backend }}
