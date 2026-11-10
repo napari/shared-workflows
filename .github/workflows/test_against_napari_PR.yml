@@ -1,0 +1,16 @@
+name: Run test against napari (Self)
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/test_against_napari_PR.yml'
+      - '.github/workflows/test_against_development.yml'
+
+permissions: {}
+
+jobs:
+  build-docs:
+    uses: ./.github/workflows/test_against_development.yml
+    with:
+      python_version: 3.14
+      project: 'napari/npe2'
